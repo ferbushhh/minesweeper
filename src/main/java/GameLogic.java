@@ -39,7 +39,7 @@ public class GameLogic {
         }
     }
 
-    public void openZeroCell(int thisX, int thisY) { //создать поле с значениями, тыкнуть в центр, сравнить кол-во открывшихся
+    public void openZeroCell(int thisX, int thisY) {
         if (cells[thisX][thisY].closeCell == -1) {
             cells[thisX][thisY].closeCell = 1;
             if (cells[thisX][thisY].bombCell == 0) {
@@ -78,7 +78,7 @@ public class GameLogic {
         }
     }
 
-    public void placementOfMinesAndNumbers (int cellX, int cellY) { //идем по массиву, натыкаемся на цифру, ищем бомбы по периметру и сверяем их с цифрой
+    public void placementOfMinesAndNumbers (int cellX, int cellY) {
         for (int i = 0; i < max_bomb;) {
             while (1==1) {
                 int x = (int)(Math.random() * widthCell);
