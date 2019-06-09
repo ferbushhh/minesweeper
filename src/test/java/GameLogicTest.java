@@ -106,7 +106,6 @@ public class GameLogicTest {
 
                     if (count != game.cells[x][y].bombCell) {
                         flag = false;
-                        break;
                     }
                 }
             }
@@ -114,4 +113,88 @@ public class GameLogicTest {
 
         Assert.assertTrue(flag);
     }
+
+    @Test
+    public void leftMouse() {
+        int cellX = 5;
+        int cellY = 5;
+        GameLogic gameTest = new GameLogic(cellX, cellY, 5);
+
+        Cell cellTest = gameTest.cells[0][0];
+
+        gameTest.leftMouse(cellTest); //первый раз нажали мышкой - расставляем бомбы и цифры
+
+        int count = 0;
+
+        for (int x = 0; x < cellX; x++)
+            for (int y = 0; y < cellY; y++) {
+                if (gameTest.cells[x][y].bombCell == -1)
+                    count++;
+            }
+
+        Assert.assertEquals(5, count); //кол-во бомб расставленных совпадает с заданным кол-вом
+
+        gameTest.leftMouse(cellTest); //нажали на уже открытую ячейку
+
+        Assert.assertEquals(gameTest.cells[0][0].closeCell, 1); //проверяем, что она все также открыта
+
+        for (int x = 0; x < cellX; x++)
+            for (int y = 0; y < cellY; y++) {
+                if (gameTest.cells[x][y].bombCell == -1) {
+                    Cell cell = gameTest.cells[x][y];
+                    gameTest.leftMouse(cell);
+                }
+            }
+
+        Assert.assertTrue(gameTest.endGame); //нажали на закрытую ячейку, где есть бомба = конец игры
+    }
+
+    @Test
+    public void rightMouse() {
+        int cellX = 5;
+        int cellY = 5;
+        int numBomb = 5;
+
+        GameLogic gameTest = new GameLogic(cellX, cellY, numBomb);
+
+        Cell cellTest = gameTest.cells[0][0];
+
+        gameTest.leftMouse(cellTest);
+
+        for (int x = 0; x < cellX; x++) {
+            for (int y = 0; y < cellY; y++) {
+                if (gameTest.cells[x][y].bombCell != -1) {
+                    Cell cell = gameTest.cells[x][y];
+                    gameTest.rightMouse(cell);
+                }
+            }
+        }
+
+        Assert.assertTrue(gameTest.endGame); //поставили флаг на ячейку, где нет бомбы = конец игры
+
+        GameLogic gameTestSecond = new GameLogic(cellX, cellY, numBomb);
+
+        Cell cellTestSecond = gameTestSecond.cells[0][0];
+
+        gameTestSecond.leftMouse(cellTestSecond);
+
+        int count = 0;
+
+        for (int x = 0; x < cellX; x++) {
+            for (int y = 0; y < cellY; y++) {
+                if (gameTestSecond.cells[x][y].bombCell == -1) {
+                    Cell cell = gameTestSecond.cells[x][y];
+                    gameTestSecond.rightMouse(cell);
+                    count++;
+                    if (count == numBomb)
+                        break;
+                }
+            }
+            if (count == numBomb)
+                break;
+        }
+
+        Assert.assertTrue(gameTestSecond.gameWin); //расставили все флаги на поле = победа
+    }
+
 }

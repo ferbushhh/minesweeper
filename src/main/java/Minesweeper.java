@@ -20,14 +20,10 @@ public class Minesweeper extends JFrame {
 
         frame.setContentPane(mainPanel);
 
-        //frame.setSize(width * 30 + 30, (1 + 2*  height) * 20 + 40);
         frame.setSize(width * 30 + 30, (1 + 2*  height) * 20 + 60);
         frame.setLocationRelativeTo(null);
-        //frame.setBackground(Color.LIGHT_GRAY);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
     }
-
-
 }

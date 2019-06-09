@@ -1,9 +1,6 @@
 public class GameLogic {
 
-    private final int width;
-    private final int height;
     private final int max_bomb;
-    private final int allCells;
     private final int radius;
     private final int widthCell;
     private final int heightCell;
@@ -12,18 +9,13 @@ public class GameLogic {
     boolean endGame = false;
     boolean gameOn = false;
     boolean gameWin = false;
-    int freeCell;
 
     public GameLogic (final int widthCell, final int heightCell, int bombs) {
         this.widthCell = widthCell;
         this.heightCell = heightCell;
-        freeCell = widthCell * heightCell;
         cells = new Cell[widthCell][heightCell];
-        width = widthCell * 10;
-        height = heightCell * 10;
         max_bomb = bombs;
         numBomb = bombs;
-        allCells = width * height;
         radius = 20;
         for (int x = 0; x < widthCell; x++) {
             for (int y = 0; y < heightCell; y++) {
@@ -141,7 +133,6 @@ public class GameLogic {
                 begginingOfGame(cell.cellX, cell.cellY);
             }
             if (cell.closeCell == -1 && cell.bombCell != -1) {
-                freeCell--;
                 openZeroCell(cell.cellX, cell.cellY);
             } else if (cell.bombCell == -1) {
                 //System.exit(0);
@@ -152,10 +143,7 @@ public class GameLogic {
     }
 
     public void rightMouse(Cell cell) {
-        if (!endGame && !gameWin) {
-            if (!gameOn) {
-                begginingOfGame(cell.cellX, cell.cellY);
-            }
+        if (!endGame && !gameWin && gameOn) {
             if (cell.closeCell == -1) {
                 cell.closeCell = 0;
                 putFlag(cell);
@@ -164,7 +152,7 @@ public class GameLogic {
     }
 
     public void putFlag(Cell cell) {
-        if (cell.bombCell != -1) { //поставлен флажок не на бомбу - конец игры
+        if (cell.bombCell != -1) {
             endGame = true;
         }
         else {
